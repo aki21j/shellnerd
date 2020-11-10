@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+. "$DOTCLI_WORKDIR/common"
+
+cli_help_list_themes() {
+  echo "
+Command: ls-themes
+
+Usage: 
+  ls-themes"
+  exit 1
+}
+
+# [ ! -n "$1" ] && cli_help_deploy
+
+search_dir=$ZSH/themes
+
+cli_log "oh-my-zsh directory: $ZSH"
+
+IFS='themes/'
+cli_log "available themes: "
+for entry in "$search_dir"/*
+do
+  theme_with_ext=${entry##*/}
+  theme=$(echo "$theme_with_ext" | cut -f 1 -d '.')
+  echo "-$theme"
+done
+
+cli_log "Deployment END"
