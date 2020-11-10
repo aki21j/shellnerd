@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
-cli_log() {
-  script_name=${0##*/}
+
+RED='\033[0;31m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+log_info() {
   timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  echo "== $script_name $timestamp $1"
+  echo -e "${CYAN}info:${NC} $timestamp $1"
+}
+
+log_error() {
+  timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  echo -e "${RED}error:${NC} $timestamp $1"
 }

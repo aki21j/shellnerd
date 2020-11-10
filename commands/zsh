@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -e
+. "$CLI_WORKDIR/common"
+
+help_zsh() {
+  echo "
+command   arg           description
+  zsh     ls-themes     List all available zsh themes
+
+Usage: 
+  zsh ls-themes"
+  exit 1
+}
+
+[ ! -n "$1" ] && help_zsh
+
+# function to list all available oh-my-zsh themes
+list_themes(){
+  zsh_themes_dir=$ZSH/themes
+  log_info "oh-my-zsh directory: $ZSH"
+
+  files=($zsh_themes_dir/*)
+  pos=$(( ${#files[*]} - 1 ))
+  last=${files[$pos]}
+
+  themes_list=()
+
+  log_info "available oh-my-zsh themes: "
+  for entry in "$zsh_themes_dir"/*
+  do
+    theme_with_ext=${entry##*/}
+    theme=$(echo "$theme_with_ext" | cut -f 1 -d '.')
+    
+    if [[ $entry == $last ]]
+    then
+      themes_list+=("$theme")
+      break
+    else
+      themes_list+=("$theme,")
+    fi
+  done
+  echo "${themes_list[@]}"
+}
+
+case "$1" in
+  ls-themes|d)
+    list_themes
+    ;;
+  *)
+    help
+    ;;
+esac
+
+log_info "Fin."
