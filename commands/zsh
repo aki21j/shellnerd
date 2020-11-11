@@ -6,16 +6,19 @@ help_zsh() {
   echo "
 command   arg           description
   zsh     ls-themes     List all available zsh themes
+          set-theme     Set a theme from the list of available themes
 
 Usage: 
-  zsh ls-themes"
+  zsh ls-themes
+  zsh set-theme <THEME_NAME>"
   exit 1
 }
 
 [ ! -n "$1" ] && help_zsh
 
-# function to list all available oh-my-zsh themes
-list_themes(){
+themes_list=()
+
+get_themes(){
   zsh_themes_dir=$ZSH/themes
   log_info "oh-my-zsh directory: $ZSH"
 
@@ -23,9 +26,6 @@ list_themes(){
   pos=$(( ${#files[*]} - 1 ))
   last=${files[$pos]}
 
-  themes_list=()
-
-  log_info "available oh-my-zsh themes: "
   for entry in "$zsh_themes_dir"/*
   do
     theme_with_ext=${entry##*/}
@@ -39,15 +39,44 @@ list_themes(){
       themes_list+=("$theme,")
     fi
   done
+}
+
+# function to list all available oh-my-zsh themes
+list_themes(){
+  get_themes
+  log_info "available oh-my-zsh themes: "
   echo "${themes_list[@]}"
+}
+
+
+set_theme(){
+  get_themes
+
+  if [[ ! "${themes_list[@]}" =~ "${1}" ]]; then
+      # throw error if user choice is not available
+      log_error "$1 is not a valid theme"
+  fi
+
+  if [[ "${themes_list[@]}" =~ "${1}" ]]; then
+      zshrc_path=$HOME/.zshrc
+      update_command=s/^ZSH_THEME=.*/ZSH_THEME="${1}"/
+      log_info "Updating zsh theme to: $1"
+      sed -i "$update_command" $zshrc_path
+      log_info "Run: source \$HOME/.zshrc or reload your terminal for the changes to take effect."
+  fi
+
 }
 
 case "$1" in
   ls-themes|d)
     list_themes
     ;;
+  set-theme|d)
+    [ ! -n "$2" ] && help_zsh
+    set_theme "$2"
+    ;;
   *)
-    help
+    help_zsh
     ;;
 esac
 

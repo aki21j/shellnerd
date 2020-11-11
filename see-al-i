@@ -16,6 +16,7 @@ Usage: $cli_name [command]
 
 command   arg           description
   zsh     ls-themes     List all available zsh themes
+          set-theme     Set a theme from the list of available themes
   *                     Help
 "
   exit 1
@@ -31,7 +32,7 @@ command   arg           description
 
 case "$1" in
   zsh|d)
-    "$CLI_WORKDIR/commands/zsh" "$2" | tee -ia "$CLI_WORKDIR/logs/list-themes.log"
+    "$CLI_WORKDIR/commands/zsh" "$2" "$3" | tee -ia "$CLI_WORKDIR/logs/zsh.log"
     ;;
   *)
     help
