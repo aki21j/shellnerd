@@ -5,10 +5,12 @@ set -e
 help_zsh() {
   echo "
 command   arg           description
-  zsh     ls-themes     List all available zsh themes
+  zsh     install       Install zsh on your pc
+          ls-themes     List all available zsh themes
           set-theme     Set a theme from the list of available themes
 
 Usage: 
+  zsh install
   zsh ls-themes
   zsh set-theme <THEME_NAME>"
   exit 1
@@ -17,6 +19,24 @@ Usage:
 [ ! -n "$1" ] && help_zsh
 
 themes_list=()
+
+install_zsh(){
+  default_shell=${SHELL##*/}
+
+  if [[ "${default_shell}" =~ "zsh" ]]; then
+      log_info "zsh is already set as your default shell."
+  fi
+  if [[ ! "${default_shell}" =~ "zsh" ]]; then
+      log_info "Installing zsh..."
+      # install zsh
+      sudo apt install zsh
+      # download and install oh-my-zsh for themes and fonts
+      sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+      # make zsh the default
+      chsh -s $(which zsh)
+      echo "Log out and login again for the changes to take place."
+  fi
+}
 
 get_themes(){
   zsh_themes_dir=$ZSH/themes
@@ -68,6 +88,9 @@ set_theme(){
 }
 
 case "$1" in
+  install|d)
+    install_zsh
+    ;;
   ls-themes|d)
     list_themes
     ;;
@@ -80,4 +103,4 @@ case "$1" in
     ;;
 esac
 
-log_info "Fin."
+log_info "Fin..."

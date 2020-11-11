@@ -15,7 +15,8 @@ https://github.com/aki21j/See-Al-I
 Usage: $cli_name [command]
 
 command   arg           description
-  zsh     ls-themes     List all available zsh themes
+  zsh     install       Install zsh on your pc
+          ls-themes     List all available zsh themes
           set-theme     Set a theme from the list of available themes
   *                     Help
 "
