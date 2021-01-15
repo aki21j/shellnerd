@@ -45,7 +45,7 @@ case "$1" in
     "$CLI_WORKDIR/commands/zsh" "$2" "$3" | tee -ia "$CLI_WORKDIR/logs/zsh.log"
     ;;
   git|d)
-    "$CLI_WORKDIR/commands/ssh-config" "$2" "$3" | tee -ia "$CLI_WORKDIR/logs/app.log"
+    "$CLI_WORKDIR/commands/git-config" "$2" "$3" | tee -ia "$CLI_WORKDIR/logs/app.log"
     ;;
   *)
     help
