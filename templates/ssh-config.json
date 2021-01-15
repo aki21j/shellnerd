@@ -1,0 +1,12 @@
+{
+  "github_default" : {
+    "hostName" : "github.com",
+    "name": "ankit21j",
+    "email": "ankit21j@gmail.com"
+  },
+  "github_personal" : {
+    "hostName": "github-personal",
+    "name": "aki21j",
+    "email": "ankitgupta21j@gmail.com"
+  }
+}
