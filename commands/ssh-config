@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -e
+. "$CLI_WORKDIR/common"
+
+help_git() {
+  echo "
+command   arg           description
+  git     ls            List all available git configs.
+          use           Use one of the available configs.
+
+Usage: 
+  git ls
+  git use <CONFIG_NAME>"
+  exit 1
+}
+
+[ ! -n "$1" ] && help_git
+
+available_configs=()
+
+get_configs(){
+  config_file_path="$HOME/.ssh/ssh-config.json"
+  available_configs+=$(jq "keys" $config_file_path)
+}
+
+list_configs(){
+  get_configs
+  log_info "available git configs: -------------------"
+  log_info "${available_configs[@]}"
+}
+
+use_config(){
+  get_configs
+  config_file_path="$HOME/.ssh/ssh-config.json"
+  selected_config="${1}"
+
+  if [[ ! "${available_configs[@]}" =~ "$selected_config" ]]; then
+      # throw error if user choice is not available
+      log_error "$1 is not a option"
+  fi
+  if [[ "${available_configs[@]}" =~ "$selected_config" ]]; then
+      username=$(jq ".$selected_config.name" $config_file_path )
+      email=$(jq ".$selected_config.email" $config_file_path )
+      git config user.name $username
+      git config user.email $email
+      log_info "set username to $username and email to $email"
+  fi
+}
+
+case "$1" in
+  ls|d)
+    list_configs
+    ;;
+  use|d)
+    [ ! -n "$2" ] && help_git
+    use_config "$2"
+    ;;
+  *)
+    help_git
+    ;;
+esac
+
+log_info "Fin..."
