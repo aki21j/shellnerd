@@ -1,6 +1,10 @@
+import subprocess
 from PyInquirer import style_from_dict, Token, prompt, Separator
-from utils import style, check_package_existence
+from utils import style, check_package_existence, install_package
 from pprint import pprint
+from logger import logger
+
+
 
 questions = [
     {
@@ -30,16 +34,8 @@ questions = [
 def init_zsh():
   selected = prompt(questions, style=style)
   if selected['zsh'] == "install":
-    install()
+    subprocess.run(['bash', 'shell-commands/zsh/install-zsh.sh'])
   elif selected['zsh'] == "ls-themes":
-    print('list-themes')
+    subprocess.run(['bash', 'shell-commands/zsh/ls-themes.sh'])
   elif selected['zsh'] == "set-theme":
-    print('set-theme')
-
-
-def install():
-  is_installed = check_package_existence("zsh")
-  if is_installed:
-    print("zsh is already set as your default shell.")
-  else:
-    print("Installing zsh...")
+    subprocess.run(['bash', 'shell-commands/zsh/set-theme.sh', 'custombira'])
