@@ -4,6 +4,7 @@ from utils import style
 from logger import logger
 
 from zshMgmt import index as Zsh
+from gitMgmt import index as Git
 
 questions = [
     {
@@ -26,14 +27,13 @@ questions = [
 ]
 
 def main(selected):
-  logger.info(selected['init_choice'])
   if selected['init_choice'] == "zsh-mgmt":
     # show zsh options
     Zsh.init_zsh()
 
   elif selected['init_choice'] == "git-mgmt":
     #show git options
-    logger.info("GIT")
+    Git.init_git()
 
 
 
