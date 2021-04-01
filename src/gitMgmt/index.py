@@ -5,6 +5,7 @@ import json
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from utils import style, check_package_existence, install_package
 from logger import logger
+import main as Main
 
 home = os.environ['HOME']
 SSH_CONFIG_PATH = os.path.join(home, ".ssh", "ssh-config.json")
@@ -29,6 +30,16 @@ questions = [
                 'key': 2,
                 'name': 'Switch to account:',
                 'value': 'switch'
+            },
+            {
+                'key': 3,
+                'name': 'Go to Main Menu',
+                'value': 'main-menu'
+            },
+            {
+                'key': 4,
+                'name': 'Exit',
+                'value': 'exit'
             }
         ]
     }
@@ -74,7 +85,12 @@ def init_git():
     remove_account()
   elif selected['git-config'] == "switch":
     switch_account()
-
+  elif selected['git-config'] == 'main-menu':
+    Main.main()
+    # print('x')
+  elif selected['git-config'] == 'exit':
+    logger.info("Exiting...")
+    sys.exit(0)
 
 def add_account(email, username, hostname):
   config_obj = read_config_file()

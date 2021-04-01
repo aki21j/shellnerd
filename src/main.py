@@ -1,4 +1,5 @@
 from PyInquirer import style_from_dict, Token, prompt, Separator
+import sys
 
 from utils import style
 from logger import logger
@@ -21,22 +22,29 @@ questions = [
                 'key': 1,
                 'name': 'GIT Config Management',
                 'value': 'git-mgmt'
+            },
+            {
+                'key': 2,
+                'name': 'Exit',
+                'value': 'exit'
             }
         ]
     }
 ]
 
-def main(selected):
+def main():
+  selected = prompt(questions, style=style)
   if selected['init_choice'] == "zsh-mgmt":
     # show zsh options
     Zsh.init_zsh()
-
   elif selected['init_choice'] == "git-mgmt":
     #show git options
     Git.init_git()
+  elif selected['init_choice'] == 'exit':
+    logger.info("Exiting...")
+    sys.exit(0)
 
 
 
 if __name__ == "__main__":
-  selected = prompt(questions, style=style)
-  main(selected)
+  main()

@@ -1,9 +1,9 @@
 import subprocess
-import os
+import os,sys
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from utils import style, check_package_existence, install_package
 from logger import logger
-
+import main as Main
 
 questions = [
     {
@@ -25,6 +25,16 @@ questions = [
                 'key': 2,
                 'name': 'Set theme',
                 'value': 'set-theme'
+            },
+            {
+                'key': 3,
+                'name': 'Go to Main Menu',
+                'value': 'main-menu'
+            },
+            {
+                'key': 4,
+                'name': 'Exit',
+                'value': 'exit'
             }
         ]
     }
@@ -45,3 +55,8 @@ def init_zsh():
   elif selected['zsh'] == "set-theme":
     inp = prompt(set_theme_ques, style=style)
     subprocess.run(['bash', 'zshMgmt/commands/set-theme.sh', inp['set_theme_name']])
+  elif selected['zsh'] == 'main-menu':
+    Main.main()
+  elif selected['zsh'] == 'exit':
+    logger.info("Exiting...")
+    sys.exit(0)
