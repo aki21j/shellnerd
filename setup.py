@@ -2,23 +2,6 @@ from setuptools import Command, find_packages, setup
 
 from plonk import __version__
 
-# setup(
-#     name='plonk',
-#     version='1.0',
-#     entry_points={
-#         'console_scripts': ['plonk=plonk.command_line:main'],
-#     },
-#     author='Ankit Gupta',
-#     description='Plonk everything!',
-#     # install_requires=[
-#     #     'PyInquirer',
-#     #     'elevate',
-#     # ],
-#     include_package_data=True,
-#     zip_safe=False
-# )
-
-
 setup(
     name = 'plonk',
     version = __version__,
