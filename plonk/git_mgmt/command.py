@@ -6,10 +6,12 @@ import sys
 from plonk import cli
 from PyInquirer import prompt
 from plonk.utils.logger import logger
-from plonk.utils.utils import style
+from plonk.utils.utils import style, get_script_path
 
 home = os.environ['HOME']
 SSH_CONFIG_PATH = os.path.join(home, ".ssh", "ssh-config.json")
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 questions = [
     {
@@ -143,4 +145,6 @@ def switch_account():
             }
         ]
         selected_host = prompt(host_ques, style=style)
-        subprocess.run(['bash', 'plonk/gitMgmt/commands/switch-acc.sh', selected_host['git-hosts']])
+        script_path = get_script_path(dir_path, "switch-acc.sh")
+        print(script_path)
+        subprocess.run(['bash', script_path, selected_host['git-hosts']])

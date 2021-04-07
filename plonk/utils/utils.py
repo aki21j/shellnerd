@@ -21,6 +21,9 @@ style = style_from_dict({
 def is_root():
     return os.getuid() == 0
 
+def get_script_path(dir_path,script_name):
+  script_path = os.path.join(dir_path, "commands/%s" % script_name)
+  return script_path
 
 # def check_package_existence(pkg_name):
 #     try:
