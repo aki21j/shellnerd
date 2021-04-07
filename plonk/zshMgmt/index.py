@@ -1,9 +1,10 @@
 import subprocess
-import os
-from PyInquirer import style_from_dict, Token, prompt, Separator
-from utils import style, check_package_existence, install_package
-from logger import logger
+import sys
 
+from plonk import command_line
+from PyInquirer import prompt
+from plonk.utils.logger import logger
+from plonk.utils.utils import style
 
 questions = [
     {
@@ -25,6 +26,16 @@ questions = [
                 'key': 2,
                 'name': 'Set theme',
                 'value': 'set-theme'
+            },
+            {
+                'key': 3,
+                'name': 'Go to Main Menu',
+                'value': 'main-menu'
+            },
+            {
+                'key': 4,
+                'name': 'Exit',
+                'value': 'exit'
             }
         ]
     }
@@ -45,3 +56,8 @@ def init_zsh():
   elif selected['zsh'] == "set-theme":
     inp = prompt(set_theme_ques, style=style)
     subprocess.run(['bash', 'zshMgmt/commands/set-theme.sh', inp['set_theme_name']])
+  elif selected['zsh'] == 'main-menu':
+    command_line.main()
+  elif selected['zsh'] == 'exit':
+    logger.info("Exiting...")
+    sys.exit(0)

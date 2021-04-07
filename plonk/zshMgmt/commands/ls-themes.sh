@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/plonk/env bash
 
 # function to list all available oh-my-zsh themes
 zsh_themes_dir=$ZSH/themes

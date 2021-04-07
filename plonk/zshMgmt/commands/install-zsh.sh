@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/plonk/env bash
 
 default_shell=${SHELL##*/}
 
