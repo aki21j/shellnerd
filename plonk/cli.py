@@ -2,10 +2,10 @@ import sys
 
 from PyInquirer import prompt
 
-from plonk.gitMgmt import index as Git
-from plonk.utils.logger import logger
-from plonk.utils.utils import style
-from plonk.zshMgmt import index as Zsh
+from .utils.logger import logger
+from .utils.utils import style
+from .zsh_mgmt import command as Zsh
+from .git_mgmt import command as Git
 
 questions = [
     {

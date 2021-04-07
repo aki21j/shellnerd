@@ -1,7 +1,8 @@
+import os
 import subprocess
 import sys
 
-from plonk import command_line
+from plonk import cli
 from PyInquirer import prompt
 from plonk.utils.logger import logger
 from plonk.utils.utils import style
@@ -41,23 +42,27 @@ questions = [
     }
 ]
 
-set_theme_ques =  {
-        'type': 'input',
-        'name': 'set_theme_name',
-        'message': 'Enter name of the theme to be set:'
+set_theme_ques = {
+    'type': 'input',
+    'name': 'set_theme_name',
+    'message': 'Enter name of the theme to be set:'
 }
 
+
 def init_zsh():
-  selected = prompt(questions, style=style)
-  if selected['zsh'] == "install":
-    subprocess.run(['bash', 'zshMgmt/commands/install-zsh.sh'])
-  elif selected['zsh'] == "ls-themes":
-    subprocess.run(['bash', 'zshMgmt/commands/ls-themes.sh'])
-  elif selected['zsh'] == "set-theme":
-    inp = prompt(set_theme_ques, style=style)
-    subprocess.run(['bash', 'zshMgmt/commands/set-theme.sh', inp['set_theme_name']])
-  elif selected['zsh'] == 'main-menu':
-    command_line.main()
-  elif selected['zsh'] == 'exit':
-    logger.info("Exiting...")
-    sys.exit(0)
+    selected = prompt(questions, style=style)
+    curr_dir = os.getcwd()
+    commands_dir = os.path.join(os.path.dirname(curr_dir), 'commands')
+    print(commands_dir)
+    if selected['zsh'] == "install":
+        subprocess.run(['bash', os.path.join(commands_dir,'install-zsh.sh')])
+    elif selected['zsh'] == "ls-themes":
+        subprocess.run(['bash', 'plonk/zshMgmt/commands/ls-themes.sh'])
+    elif selected['zsh'] == "set-theme":
+        inp = prompt(set_theme_ques, style=style)
+        subprocess.run(['bash', 'plonk/zshMgmt/commands/set-theme.sh', inp['set_theme_name']])
+    elif selected['zsh'] == 'main-menu':
+        cli.main()
+    elif selected['zsh'] == 'exit':
+        logger.info("Exiting...")
+        sys.exit(0)

@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 
-from plonk import command_line
+from plonk import cli
 from PyInquirer import prompt
 from plonk.utils.logger import logger
 from plonk.utils.utils import style
@@ -90,7 +90,7 @@ def init_git():
     elif selected['git-config'] == "switch":
         switch_account()
     elif selected['git-config'] == 'main-menu':
-        command_line.main()
+        cli.main()
         # print('x')
     elif selected['git-config'] == 'exit':
         logger.info("Exiting...")
@@ -143,4 +143,4 @@ def switch_account():
             }
         ]
         selected_host = prompt(host_ques, style=style)
-        subprocess.run(['bash', 'gitMgmt/commands/switch-acc.sh', selected_host['git-hosts']])
+        subprocess.run(['bash', 'plonk/gitMgmt/commands/switch-acc.sh', selected_host['git-hosts']])

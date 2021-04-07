@@ -1,4 +1,4 @@
-#!/usr/plonk/env bash
+#!/usr/bin/env bash
 
 themes_list=()
 
