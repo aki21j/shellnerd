@@ -1,5 +1,5 @@
 # PLONK-CLI
-PLONK: ```[verb]set down heavily or carelessly.```
+PLONK: ```to set down heavily or carelessly.```
 
 Plonk cli was created out of necessity to cater to smaller things that can become a hassle to manage via the traditional terminal ways.
 To start just type ```plonk``` after installation.
