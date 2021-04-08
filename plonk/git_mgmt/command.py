@@ -6,67 +6,14 @@ import sys
 from plonk import cli
 from PyInquirer import prompt
 from plonk.utils.logger import logger
-from plonk.utils.utils import style, get_script_path
+from plonk.utils.utils import style, get_script_path, default_menu_or_exit
+from plonk.questions import retrieve_questions
 
 home = os.environ['HOME']
 SSH_PATH = os.path.join(home, '.ssh')
 SSH_CONFIG_PATH = os.path.join(SSH_PATH, "ssh-config.json")
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-
-questions = [
-    {
-        'type': 'list',
-        'name': 'git-config',
-        'message': 'What do you want?',
-        'choices': [
-            {
-                'key': 0,
-                'name': 'Add user account',
-                'value': 'add'
-            },
-            {
-                'key': 1,
-                'name': 'Remove user account',
-                'value': 'remove'
-            },
-            {
-                'key': 2,
-                'name': 'Switch to account:',
-                'value': 'switch'
-            },
-            {
-                'key': 3,
-                'name': 'Go to Main Menu',
-                'value': 'main-menu'
-            },
-            {
-                'key': 4,
-                'name': 'Exit',
-                'value': 'exit'
-            }
-        ]
-    }
-]
-
-add_account_username = {
-    'type': 'input',
-    'name': 'add_acc_username',
-    'message': 'Enter username:'
-}
-
-add_account_email = {
-    'type': 'input',
-    'name': 'add_acc_email',
-    'message': 'Enter email:'
-}
-
-add_account_hostname = {
-    'type': 'input',
-    'name': 'add_acc_hostname',
-    'message': 'Enter hostname:'
-}
-
 
 def read_config_file():
     if os.path.exists(SSH_CONFIG_PATH):
@@ -84,22 +31,19 @@ def write_config_to_file(config_obj):
 
 
 def init():
-    selected = prompt(questions, style=style)
+    selected = prompt(retrieve_questions('git', 'init'), style=style)
     if selected['git-config'] == "add":
-        inp_username = prompt(add_account_username, style=style)
-        inp_email = prompt(add_account_email, style=style)
-        inp_hostname = prompt(add_account_hostname, style=style)
+        inp_username = prompt(retrieve_questions('git', 'add_account_username'), style=style)
+        inp_email = prompt(retrieve_questions('git', 'add_account_email'), style=style)
+        inp_hostname = prompt(retrieve_questions('git', 'add_account_hostname'), style=style)
         add_account(inp_email['add_acc_email'], inp_username['add_acc_username'], inp_hostname['add_acc_hostname'])
     elif selected['git-config'] == "remove":
         remove_account()
     elif selected['git-config'] == "switch":
         switch_account()
-    elif selected['git-config'] == 'main-menu':
-        cli.main()
-        # print('x')
-    elif selected['git-config'] == 'exit':
-        logger.info("Exiting...")
-        sys.exit(0)
+    else:
+        default_menu_or_exit(selected['git-config'])
+    init()
 
 
 def add_account(email, username, hostname):
@@ -111,6 +55,7 @@ def add_account(email, username, hostname):
         "email": email
     }
     write_config_to_file(config_obj)
+    logger.info("Finished adding account.")
 
 
 def remove_account():
@@ -124,13 +69,21 @@ def remove_account():
                 'type': 'list',
                 'name': 'git-hosts',
                 'message': 'Select host to remove:',
-                'choices': config_obj.keys()
+                'choices': list(config_obj.keys()) + retrieve_questions('default_exits')
             }
         ]
         selected_host = prompt(host_ques, style=style)
+        default_menu_or_exit(selected_host['git-hosts'])
 
-        del config_obj[selected_host['git-hosts']]
-        write_config_to_file(config_obj)
+        confirm_removal = prompt(retrieve_questions('confirm_remove'), style=style)
+        if confirm_removal['remove_confirmation']:
+            del config_obj[selected_host['git-hosts']]
+            write_config_to_file(config_obj)
+            logger.info("Account removal successful.")
+        else:
+          init()
+
+        
 
 
 def switch_account():
@@ -144,10 +97,12 @@ def switch_account():
                 'type': 'list',
                 'name': 'git-hosts',
                 'message': 'Select host to switch to:',
-                'choices': config_obj.keys()
+                'choices': list(config_obj.keys()) + retrieve_questions('default_exits')
             }
         ]
         selected_host = prompt(host_ques, style=style)
+
+        default_menu_or_exit(selected_host['git-hosts'])
+
         script_path = get_script_path(dir_path, "switch-acc.sh")
-        print(script_path)
         subprocess.run(['bash', script_path, selected_host['git-hosts']])

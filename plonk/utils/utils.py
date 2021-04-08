@@ -2,10 +2,12 @@ import os
 import sys
 
 # import apt
-from PyInquirer import style_from_dict, Token
+from PyInquirer import prompt ,style_from_dict, Token
 from elevate import elevate
 
 from .logger import logger
+from plonk import cli
+from plonk.questions import retrieve_questions
 
 style = style_from_dict({
     Token.Separator: '#cc5454',
@@ -24,6 +26,17 @@ def is_root():
 def get_script_path(dir_path,script_name):
   script_path = os.path.join(dir_path, "commands/%s" % script_name)
   return script_path
+
+def default_menu_or_exit(selection):
+  if selection == "Go to Main Menu" or selection == "main-menu":
+    cli.main()
+  elif selection == "Exit" or selection == "exit":
+    # inp_exit = prompt(retrieve_questions('exit'), style=style)
+    # if inp_exit['exit']:
+    logger.info("Exiting...")
+    sys.exit(0)
+  else:
+    return
 
 # def check_package_existence(pkg_name):
 #     try:
