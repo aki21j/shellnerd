@@ -6,7 +6,8 @@ import sys
 from plonk import cli
 from PyInquirer import prompt
 from plonk.utils.logger import logger
-from plonk.utils.utils import style, get_script_path
+from plonk.utils.utils import style, get_script_path, default_menu_or_exit
+from plonk.questions import retrieve_questions
 
 home = os.environ['HOME']
 SSH_PATH = os.path.join(home, '.ssh')
@@ -15,82 +16,21 @@ ALL_CONFIG_PATH = os.path.join(SSH_PATH, "all_config.json")
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-questions = [
-    {
-        'type': 'list',
-        'name': 'ssh-config',
-        'message': 'What do you want?',
-        'choices': [
-            {
-                'key': 0,
-                'name': 'Add/update server alias',
-                'value': 'add'
-            },
-            {
-                'key': 1,
-                'name': 'Remove server alias',
-                'value': 'remove'
-            },
-            {
-                'key': 2,
-                'name': 'Connect to server',
-                'value': 'connect-to'
-            },
-            {
-                'key': 3,
-                'name': 'Go to Main Menu',
-                'value': 'main-menu'
-            },
-            {
-                'key': 4,
-                'name': 'Exit',
-                'value': 'exit'
-            }
-        ]
-    }
-]
-
-add_server_username = {
-    'type': 'input',
-    'name': 'add_server_username',
-    'message': 'Enter Username:'
-}
-
-add_server_host = {
-    'type': 'input',
-    'name': 'add_server_host',
-    'message': 'Enter host address:'
-}
-
-add_server_alias = {
-    'type': 'input',
-    'name': 'add_server_alias',
-    'message': 'Enter Alias Name:'
-}
-
-path_to_id_rsa = {
-    'type': 'input',
-    'name': 'id_rsa_path',
-    'message': 'Enter Path to identity file aka id_rsa. This is optional if already configured globally.'
-}
-
 def init():
-    selected = prompt(questions, style=style)
+    selected = prompt(retrieve_questions('ssh', 'init'), style=style)
     if selected['ssh-config'] == "add":
-        inp_username = prompt(add_server_username, style=style)
-        inp_host = prompt(add_server_host, style=style)
-        inp_alias = prompt(add_server_alias, style=style)
-        inp_id_rsa = prompt(path_to_id_rsa, style=style)
+        inp_username = prompt(retrieve_questions('ssh','add_server_username'), style=style)
+        inp_host = prompt(retrieve_questions('ssh','add_server_host'), style=style)
+        inp_alias = prompt(retrieve_questions('ssh','add_server_alias'), style=style)
+        inp_id_rsa = prompt(retrieve_questions('ssh','path_to_id_rsa'), style=style)
         add_account(inp_host['add_server_host'], inp_username['add_server_username'], inp_alias['add_server_alias'], inp_id_rsa['id_rsa_path'])
     elif selected['ssh-config'] == "remove":
         remove_account()
     elif selected['ssh-config'] == "connect-to":
         connect_to_server()
-    elif selected['ssh-config'] == 'main-menu':
-        cli.main()
-    elif selected['ssh-config'] == 'exit':
-        logger.info("Exiting...")
-        sys.exit(0)
+    else:
+        default_menu_or_exit(selected['ssh-config'])
+    init()
 
 def read_config_file():
     if os.path.exists(ALL_CONFIG_PATH):
@@ -174,15 +114,19 @@ def remove_account():
                 'type': 'list',
                 'name': 'ssh-hosts',
                 'message': 'Select host to remove:',
-                'choices': available_servers
+                'choices': available_servers + retrieve_questions('default_exits')
             }
         ]
         selected_host = prompt(host_ques, style=style)
+        default_menu_or_exit(selected_host['ssh-hosts'])
 
-        config_obj.pop(selected_host['ssh-hosts'])
-        write_config_to_file(config_obj)
-        logger.info("Finished removing config.")
-
+        confirm_removal = prompt(retrieve_questions('confirm_remove'), style=style)
+        if confirm_removal['remove_confirmation']:
+          config_obj.pop(selected_host['ssh-hosts'])
+          write_config_to_file(config_obj)
+          logger.info("Finished removing config.")
+        else:
+          init()
 
 def connect_to_server():
     has_config = get_config()
@@ -208,5 +152,4 @@ def connect_to_server():
           ]
           selected_host = prompt(host_ques, style=style)
           cmd = ['ssh', selected_host['ssh-hosts']]
-          print(cmd)
           subprocess.call(cmd)
