@@ -105,4 +105,6 @@ def switch_account():
         default_menu_or_exit(selected_host['git-hosts'])
 
         script_path = get_script_path(dir_path, "switch-acc.sh")
-        subprocess.run(['bash', script_path, selected_host['git-hosts']])
+        username = config_obj[selected_host['git-hosts']]['name']
+        email = config_obj[selected_host['git-hosts']]['email']
+        subprocess.run(['bash', script_path, username, email])
