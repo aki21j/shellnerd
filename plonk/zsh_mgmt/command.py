@@ -50,7 +50,7 @@ set_theme_ques = {
     'message': 'Enter name of the theme to be set:'
 }
 
-def init_zsh():
+def init():
     selected = prompt(questions, style=style)
     if selected['zsh'] == "install":
         script_path = get_script_path(dir_path,"install-zsh.sh")
