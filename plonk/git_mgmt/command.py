@@ -9,7 +9,8 @@ from plonk.utils.logger import logger
 from plonk.utils.utils import style, get_script_path
 
 home = os.environ['HOME']
-SSH_CONFIG_PATH = os.path.join(home, ".ssh", "ssh-config.json")
+SSH_PATH = os.path.join(home, '.ssh')
+SSH_CONFIG_PATH = os.path.join(SSH_PATH, "ssh-config.json")
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -75,8 +76,10 @@ def read_config_file():
 
 
 def write_config_to_file(config_obj):
+    if not os.path.exists(SSH_PATH):
+        os.makedirs(SSH_PATH)
     with open(SSH_CONFIG_PATH, 'w') as outfile:
-        json.dump(config_obj, outfile, indent=2)
+        json.dump(config_obj, outfile, indent=2)    
     return
 
 
