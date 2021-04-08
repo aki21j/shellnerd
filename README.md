@@ -11,7 +11,7 @@ To start just type ```plonk``` after installation.
 
 ### Available features:
 - zsh management:  
-  - ```install``` : Install zsh and oh-my-zsh and set as default shell.
+  - ```install``` : Command to Install zsh, oh-my-zsh and to set it as your default shell.
   - ```list available themes``` : List all available zsh themes.
   - ```set theme``` : Set a theme from the list of available zsh themes.
 
@@ -21,6 +21,10 @@ To start just type ```plonk``` after installation.
   - ```switch to account``` : Set the user name and email from the config to be used actively.
   NOTE: this feature requires the use of a file called ssh-config.json, it should have the hostname email and username of each config. Sample template available under ```templates/ssh-config.json```
 
+- ssh config management: Options related to ssh keys and available servers. 
+  - ```add/update server alias``` : Add or updated the alias which can be used to connect to a remote server.
+  - ```remove account``` : Remove selected server alias.
+  - ```connect to server``` : Connect to a server via ssh from the list of available servers.
 
 ### Plonk can be installed in two ways:
 - As a pip package from PyPi ```[Coming Soon] ```

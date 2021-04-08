@@ -83,7 +83,7 @@ def write_config_to_file(config_obj):
     return
 
 
-def init_git():
+def init():
     selected = prompt(questions, style=style)
     if selected['git-config'] == "add":
         inp_username = prompt(add_account_username, style=style)
