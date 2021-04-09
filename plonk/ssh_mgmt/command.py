@@ -72,10 +72,10 @@ def add_account(host_address, username, host_alias, identity_file_path):
           is_duplicate = True
 
     # {
-    #     "Host": "prod-nginx-server",
-    #     "HostName": "13.229.114.12",
-    #     "User": "ubuntu"
-    #     "IdentityFile": "~/.ssh/id_rsa_personal"
+    #     "Host": sample-test-server",
+    #     "HostName": "13.100.212.12",
+    #     "User": dummy
+    #     "IdentityFile": "~/.ssh/id_rsa"
     # },
 
     if is_duplicate:
@@ -87,7 +87,7 @@ def add_account(host_address, username, host_alias, identity_file_path):
           "User": username,
           "HostName": host_address
       }
-      if identity_file_path is not None or identity_file_path != "":
+      if identity_file_path:
         new_conf["IdentityFile"] = identity_file_path
 
       config_obj.append(new_conf)
