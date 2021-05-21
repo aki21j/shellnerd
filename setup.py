@@ -6,7 +6,7 @@ setup(
     name = 'shellnerd',
     version = __version__,
     description = 'A CLI to nerd your way through everday shell commands.',
-    url = 'https://github.com/aki21j/see-al-i',
+    url = 'https://github.com/aki21j/shellnerd',
     author = 'Ankit Gupta',
     author_email = 'ankitgupta21j@gmail.com',
     license = 'UNLICENSE',
