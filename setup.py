@@ -1,11 +1,11 @@
 from setuptools import Command, find_packages, setup
 
-from plonk import __version__
+from shellnerd import __version__
 
 setup(
-    name = 'plonk',
+    name = 'shellnerd',
     version = __version__,
-    description = 'A CLI to plonk your way.',
+    description = 'A CLI to nerd your way through everday shell commands.',
     url = 'https://github.com/aki21j/see-al-i',
     author = 'Ankit Gupta',
     author_email = 'ankitgupta21j@gmail.com',
@@ -36,7 +36,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'plonk=plonk.cli:main',
+            'shellnerd=shellnerd.cli:main',
         ],
     },
     include_package_data=True,

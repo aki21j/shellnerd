@@ -1,2 +1,2 @@
-include plonk/git_mgmt/commands/*
-include plonk/zsh_mgmt/commands/*
+include shellnerd/git_mgmt/commands/*
+include shellnerd/zsh_mgmt/commands/*
