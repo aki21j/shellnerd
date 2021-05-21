@@ -3,11 +3,11 @@ import os
 import subprocess
 import sys
 
-from shellnerd import cli
+from src import cli
 from PyInquirer import prompt
-from shellnerd.utils.logger import logger
-from shellnerd.utils.utils import style, get_script_path, default_menu_or_exit
-from shellnerd.questions import retrieve_questions
+from src.utils.logger import logger
+from src.utils.utils import style, get_script_path, default_menu_or_exit
+from src.questions import retrieve_questions
 
 home = os.environ['HOME']
 SSH_PATH = os.path.join(home, '.ssh')

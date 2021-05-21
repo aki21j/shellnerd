@@ -1,6 +1,6 @@
 from setuptools import Command, find_packages, setup
 
-from shellnerd import __version__
+from src import __version__
 
 setup(
     name = 'shellnerd',
@@ -36,7 +36,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'shellnerd=shellnerd.cli:main',
+            'shellnerd=src.cli:main',
         ],
     },
     include_package_data=True,

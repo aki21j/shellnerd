@@ -6,8 +6,8 @@ from PyInquirer import prompt ,style_from_dict, Token
 from elevate import elevate
 
 from .logger import logger
-from shellnerd import cli
-from shellnerd.questions import retrieve_questions
+from src import cli
+from src.questions import retrieve_questions
 
 style = style_from_dict({
     Token.Separator: '#cc5454',
