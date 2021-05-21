@@ -1,8 +1,7 @@
-# PLONK-CLI
-PLONK: ```to set down heavily or carelessly.```
+# SHELLNERD
 
-Plonk cli was created out of necessity to cater to smaller things that can become a hassle to manage via the traditional terminal ways.
-To start just type ```plonk``` after installation.
+shellnerd cli was created out of necessity to cater to smaller things that can become a hassle to manage via the traditional terminal ways.
+To start just type ```shellnerd``` after installation.
 
 ### Requirements:
 - python 3.5 or higher
@@ -26,13 +25,15 @@ To start just type ```plonk``` after installation.
   - ```remove account``` : Remove selected server alias.
   - ```connect to server``` : Connect to a server via ssh from the list of available servers.
 
-### Plonk can be installed in two ways:
+### shellnerd can be installed in two ways:
 - As a pip package from PyPi ```[Coming Soon] ```
 - Build from source: To build from source do the following
   - clone this repository.
-  - cd into the ```plonk-cli``` directory and run 
+  - cd into the ```shellnerd``` directory and run 
+    -   `pip install wheel`
     - ```python setup.py sdist bdist_wheel```
-    - ```pip install dist/plonk*.whl```
+    - ```pip install dist/shellnerd*.whl```
 
 #### Supported OS: 
 - Ubuntu
+- MacOS

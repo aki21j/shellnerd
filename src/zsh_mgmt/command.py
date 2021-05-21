@@ -2,11 +2,11 @@ import os
 import subprocess
 import sys
 
-from plonk import cli
+from src import cli
 from PyInquirer import prompt
-from plonk.utils.logger import logger
-from plonk.utils.utils import style, get_script_path, default_menu_or_exit
-from plonk.questions import retrieve_questions
+from src.utils.logger import logger
+from src.utils.utils import style, get_script_path, default_menu_or_exit
+from src.questions import retrieve_questions
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 

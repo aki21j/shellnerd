@@ -1,2 +1,3 @@
-PyInquirer
-elevate
+PyInquirer==1.0.3
+ssh-config-json==1.0.1
+elevate==0.1.3
